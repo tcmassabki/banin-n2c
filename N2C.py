@@ -76,7 +76,10 @@ def calculo_val_ir(SalBruto, ValINSS, BaseIR, AliqIR):
         ValIR = 0
     return ValIR
 
-
+# função que, usando todas as funções definidas acima, 
+# calcula os campos de alíquota do INSS, valor do INSS,
+# base do Imposto de Renda, alíquota do Imposto de Renda,
+# valor do Imposto de Renda e, por fim, o salário líquido
 def calculo_val(salario):
     SalBruto = salario[0]
     AliqINSS = calculo_aliq_inss(SalBruto)
@@ -85,21 +88,26 @@ def calculo_val(salario):
     AliqIR = calculo_aliq_ir(SalBruto, ValINSS)
     ValIR = calculo_val_ir(SalBruto, ValINSS, BaseIR, AliqIR)
     SalLiquido = SalBruto - ValINSS - ValIR
+    # função finaliza retornando uma lista, conforme citado anteriormente
     return [SalBruto, AliqINSS, ValINSS, BaseIR, AliqIR, ValIR, SalLiquido]
     
 
 #PARTE 3 - DEFINIR FORMATAÇÃO EM TABELA PARA SAÍDA DOS DADOS
 
 saida = ""
+# inclusão do cabeçalho na saída que será gravada no arquivo de saída
 saida += f"{'Bruto': >12}{'AliqINSS': >12}{'Val.INSS': >12}{'Base I.R.': >12}{'AliqIR': >12}{'Val.IR': >12}{'Liquido': >12}\n"
 
 for salario in salarios:
     salario_calculado = calculo_val(salario)
     SalBruto, AliqINSS, ValINSS, BaseIR, AliqIR, ValIR, SalLiquido = salario_calculado
+    # os campos de alíquotas são formatadas com 1 casa decimal, enquanto os demais com 2
     AliqINSS, AliqIR = map(lambda x: f"{x:.1f}", [AliqINSS, AliqIR])
     SalBruto, ValINSS, BaseIR, ValIR, SalLiquido = map(lambda x: f"{x:.2f}", [SalBruto, ValINSS, BaseIR, ValIR, SalLiquido])
+    # com as casas decimais dos campos definidas, podemos aplicar o mesmo espaçamento que demos ao cabeçalho a cada um dos campos
     saida += f"{SalBruto: >12}{AliqINSS: >12}{ValINSS: >12}{BaseIR: >12}{AliqIR: >12}{ValIR: >12}{SalLiquido: >12}\n"
 
+# retirada da última quebra-linha gerada no laço for anterior
 saida = saida.rstrip("\n")
 
 arquivo_saida = open("CALCULOS.TXT", "w")
