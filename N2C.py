@@ -12,15 +12,11 @@ arquivo_entrada = open("SALARIO.TXT", "r")
 
 # criando lista geral para funcionarios, a qual conterá uma lista para cada funcionario
 salarios = []
-# cada sub-lista de funcionário terá o seguinte desenho:
-# [SalBruto, AliqINSS, ValINSS, BaseIR, AliqIR, ValIR, SalLiquido]
 
-# atribuição, a partir de leitura do arquivo de entrada, do salario bruto como item 0
-# da lista individual de cada funcionario
+# atribuição, a partir de leitura do arquivo de entrada, do salario bruto como item da lista
 for linha in arquivo_entrada:
     SalBruto = float(linha)
-    salario = [SalBruto]
-    salarios.append(salario)
+    salarios.append(SalBruto)
 
 # fechando arquivo de entrada
 arquivo_entrada.close()
@@ -80,8 +76,7 @@ def calculo_val_ir(SalBruto, ValINSS, BaseIR, AliqIR):
 # calcula os campos de alíquota do INSS, valor do INSS,
 # base do Imposto de Renda, alíquota do Imposto de Renda,
 # valor do Imposto de Renda e, por fim, o salário líquido
-def calculo_val(salario):
-    SalBruto = salario[0]
+def calculo_val(SalBruto):
     AliqINSS = calculo_aliq_inss(SalBruto)
     ValINSS = calculo_val_inss(SalBruto, AliqINSS)
     BaseIR = SalBruto - ValINSS
@@ -100,6 +95,7 @@ saida += f"{'Bruto': >12}{'AliqINSS': >12}{'Val.INSS': >12}{'Base I.R.': >12}{'A
 
 for salario in salarios:
     salario_calculado = calculo_val(salario)
+    # pega os valores e os salva em uma vari após serem calculados pela função 'calculo_val'
     SalBruto, AliqINSS, ValINSS, BaseIR, AliqIR, ValIR, SalLiquido = salario_calculado
     # os campos de alíquotas são formatadas com 1 casa decimal, enquanto os demais com 2
     AliqINSS, AliqIR = map(lambda x: f"{x:.1f}", [AliqINSS, AliqIR])
