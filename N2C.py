@@ -46,7 +46,9 @@ def calculo_val_inss(SalBruto, AliqINSS):
 def calculo_aliq_ir(SalBruto, ValINSS):
     BaseIR = SalBruto - ValINSS
     AliqIR = 0
-    if 1903.99 <= BaseIR <= 2826.65:
+    if BaseIR <= 1903.98:
+        AliqIR = 0
+    elif BaseIR <= 2826.65:
         AliqIR = 7.5
     elif BaseIR <= 3751.05:
         AliqIR = 15
